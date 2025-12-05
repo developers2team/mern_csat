@@ -40,16 +40,26 @@ router.post('/resolve', async (req, res) => {
       )}&rating=${rating}&email=${encodeURIComponent(customerEmail)}`;
 
     // You can use PNG URLs or emoji; for email, hosted PNGs are safer.
-   const html = `
-  <p>How satisfied are you with the resolution of ticket #${ticketId}?</p>
-  
-  <a href="${url(1)}"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828778.png" alt="1" width="32" height="32"/></a>
-  <a href="${url(2)}"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828779.png" alt="2" width="32" height="32"/></a>
-  <a href="${url(3)}"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828780.png" alt="3" width="32" height="32"/></a>
-  <a href="${url(4)}"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828781.png" alt="4" width="32" height="32"/></a>
-  <a href="${url(5)}"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828782.png" alt="5" width="32" height="32"/></a>
-`;
+const html = `
+  <div style="font-family: Arial, sans-serif; padding: 20px;">
+    <p style="font-size: 16px; margin-bottom: 20px;">
+      How satisfied are you with the resolution of ticket #${ticketId}?
+    </p>
+    
+    <div style="display: flex; gap: 10px; justify-content: center;">
+  <a href="${url(1)}" style="text-decoration: none; font-size: 24px; color: #ff4444; font-weight: bold; margin: 0 10px;">1</a>
+  <a href="${url(2)}" style="text-decoration: none; font-size: 24px; color: #ff8800; font-weight: bold; margin: 0 10px;">2</a>
+  <a href="${url(3)}" style="text-decoration: none; font-size: 24px; color: #888888; font-weight: bold; margin: 0 10px;">3</a>
+  <a href="${url(4)}" style="text-decoration: none; font-size: 24px; color: #44aa44; font-weight: bold; margin: 0 10px;">4</a>
+  <a href="${url(5)}" style="text-decoration: none; font-size: 24px; color: #008800; font-weight: bold; margin: 0 10px;">5</a>
 
+    </div>
+    
+    <p style="font-size: 12px; color: #666; margin-top: 15px;">
+      Click any number above to share your feedback
+    </p>
+  </div>
+`;
 
     await transporter.sendMail({
       from: FROM_EMAIL || SMTP_USER,
