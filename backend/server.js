@@ -1,10 +1,10 @@
 require('dotenv').config();
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
+import express, { json } from 'express';
+import { connect } from 'mongoose';
+import cors from 'cors';
 
-const csatRoutes = require('./routes/csat');
-const ticketRoutes = require('./routes/ticket');
+import csatRoutes from './routes/csat';
+import ticketRoutes from './routes/ticket';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -15,7 +15,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
-app.use(express.json());
+app.use(json());
 
 // Routes
 app.use('/api/csat', csatRoutes);
@@ -27,8 +27,7 @@ app.get('/', (req, res) => {
 });
 
 // Connect to MongoDB and start server
-mongoose
-  .connect(process.env.MONGO_URI)
+connect(process.env.MONGO_URI)
   .then(() => {
     console.log('MongoDB connected');
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
