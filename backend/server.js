@@ -1,10 +1,10 @@
 require('dotenv').config();
-import express, { json } from 'express';
-import { connect } from 'mongoose';
-import cors from 'cors';
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
 
-import csatRoutes from './routes/csat';
-import ticketRoutes from './routes/ticket';
+const csatRoutes = require('./routes/csat');
+const ticketRoutes = require('./routes/ticket');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -15,7 +15,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
-app.use(json());
+app.use(express.json());
 
 // Routes
 app.use('/api/csat', csatRoutes);
@@ -23,11 +23,12 @@ app.use('/api/tickets', ticketRoutes);
 
 // Root test endpoint
 app.get('/', (req, res) => {
-  res.send('CSAT MERN backend running');
+  res.send('CSAT MERN backend running on Render');
 });
 
 // Connect to MongoDB and start server
-connect(process.env.MONGO_URI)
+mongoose
+  .connect(process.env.MONGO_URI)
   .then(() => {
     console.log('MongoDB connected');
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
@@ -35,4 +36,3 @@ connect(process.env.MONGO_URI)
   .catch((err) => {
     console.error('MongoDB connection error:', err);
   });
-
